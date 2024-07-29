@@ -23,6 +23,14 @@ export class UserController {
     return this.userService.GetUserInfo(user_id);
   }
 
+  @Get('/nearby')
+  @UseGuards(AuthGuard)
+  handleGetNearbyUsers(@Request() req) {
+    const { user_id } = req.user;
+
+    return this.userService.GetNearbyUsers(user_id);
+  }
+
   @Patch('/')
   @UseGuards(AuthGuard)
   async handleUpdateUserInfo(
