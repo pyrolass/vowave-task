@@ -54,15 +54,15 @@ export class AuthService {
   async signUp(signUpRequestDto: SignUpRequestDto): Promise<SignUpResponseDto> {
     const user = await this.prisma.user.findFirst({
       where: {
-        username: signUpRequestDto.username,
+        OR: [
+          { username: signUpRequestDto.username },
+          { email: signUpRequestDto.email },
+        ],
       },
     });
 
     if (user) {
-      throw new HttpException(
-        'user with that username already exists',
-        HttpStatus.FORBIDDEN,
-      );
+      throw new HttpException('user already exists', HttpStatus.FORBIDDEN);
     }
 
     const hashedPassword = await bcrypt.hash(signUpRequestDto.password, 10);
