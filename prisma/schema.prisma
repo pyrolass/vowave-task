@@ -23,6 +23,19 @@ model User {
   lat Float
   lon Float
   deleted Boolean @default(false)
+  likes      Likes[] @relation("UserLikes")
+  likedBy    Likes[] @relation("LikedByUsers")
+  created_at DateTime  @default(now())
+}
+
+model Likes {
+  like_id    Int     @id @default(autoincrement())
+  liked_by   Int
+  user_id    Int
+  created_at DateTime  @default(now())
+  likedBy    User    @relation("LikedByUsers", fields: [liked_by], references: [user_id])
+  user       User    @relation("UserLikes", fields: [user_id], references: [user_id])
+  @@unique([liked_by, user_id],name: "liked_by_user_id")
 }
 
 

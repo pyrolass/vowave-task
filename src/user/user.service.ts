@@ -47,6 +47,9 @@ export class UserService {
         bio: true,
         lat: true,
         lon: true,
+        _count: {
+          select: { likes: true },
+        },
       },
     });
 
