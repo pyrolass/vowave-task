@@ -5,11 +5,13 @@ import {
   Request,
   Patch,
   Body,
+  UseInterceptors,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { AuthGuard } from 'src/guards/auth.guard';
 import { GetUserInfoResponseDto } from './dto/GetUserInfoDto';
 import { UpdateUserRequestDto } from './dto/UpdateUserDto';
+import { RedisInterceptor } from 'src/redis/redis.interceptor';
 
 @Controller('user')
 export class UserController {
@@ -25,6 +27,7 @@ export class UserController {
 
   @Get('/nearby')
   @UseGuards(AuthGuard)
+  @UseInterceptors(RedisInterceptor)
   handleGetNearbyUsers(@Request() req) {
     const { user_id } = req.user;
 
