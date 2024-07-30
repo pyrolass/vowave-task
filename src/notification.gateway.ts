@@ -1,10 +1,6 @@
 import { UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import {
-  SubscribeMessage,
-  WebSocketGateway,
-  WebSocketServer,
-} from '@nestjs/websockets';
+import { WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
 
 @WebSocketGateway()
@@ -16,7 +12,6 @@ export class NotificationGateway {
 
   private userSockets = {};
 
-  @SubscribeMessage('register')
   async handleConnection(client: Socket) {
     try {
       const userId = await this.getUserIdFromSocket(client);
