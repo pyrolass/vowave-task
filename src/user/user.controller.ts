@@ -27,7 +27,6 @@ export class UserController {
 
   @Get('/nearby')
   @UseGuards(AuthGuard)
-  @UseInterceptors(RedisInterceptor)
   handleGetNearbyUsers(@Request() req) {
     const { user_id } = req.user;
 
@@ -36,6 +35,7 @@ export class UserController {
 
   @Patch('/')
   @UseGuards(AuthGuard)
+  @UseInterceptors(RedisInterceptor)
   async handleUpdateUserInfo(
     @Body() updateUserRequest: UpdateUserRequestDto,
     @Request() req,
