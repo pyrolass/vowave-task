@@ -15,4 +15,9 @@ export class AuthController {
   handleSignUp(@Body() signUpRequestDto: SignUpRequestDto) {
     return this.authService.signUp(signUpRequestDto);
   }
+
+  @Post('/seed')
+  handleSeed() {
+    return this.authService.seed();
+  }
 }

@@ -90,4 +90,34 @@ export class AuthService {
       token: token,
     };
   }
+
+  getRandomLatLon() {
+    const lat = (Math.random() * 180 - 90).toFixed(6);
+    const lon = (Math.random() * 360 - 180).toFixed(6);
+    return { lat, lon };
+  }
+
+  async seed() {
+    const users = [];
+
+    for (let i = 1; i <= 20; i++) {
+      const { lat, lon } = this.getRandomLatLon();
+      users.push({
+        username: `user${i}`,
+        email: `user${i}@example.com`,
+        password: '12345678',
+        lat: parseFloat(lat),
+        lon: parseFloat(lon),
+      });
+    }
+    for (const user of users) {
+      try {
+        await this.signUp(user);
+        console.log(`User ${user.username} `);
+      } catch (error) {
+        console.error(`Failed to add user ${user.username}:`, error.message);
+      }
+    }
+    return { message: 'seed completed' };
+  }
 }
